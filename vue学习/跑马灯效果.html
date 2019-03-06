@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 导入vue包 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <!-- 2.创建一个控制区域 -->
+    <div id="app">
+        <input type="button" value="浪起来" @click="lang">
+        <input type="button" value="低调" @click="didiao">
+        <h4>{{ msg }}</h4>
+    </div>
+
+    <script>
+    var vm = new Vue({
+        // 指定需要控制的元素
+        el: '#app',
+        // data放置页面所需要的数据
+        data:{
+            msg:'猥琐发育，别浪～～！',
+            elementId:null //如果放在局部的话，其他地方就无法访问
+        },
+        methods: {
+            // lang(){
+                //想要访问data中的数据，需要加this来访问
+                // this代表当前这个实例
+            //     var _this = this;//1.如果在定时器中直接使用this，那么this就会指向定时器，而不是当前的vm对象
+
+            //     var elementId = setInterval(function(){
+            //     var start = _this.msg.substring(0,1);//拿到第一个字符
+            //     var end = _this.msg.substring(1)//拿到第一个字符后的字符串
+            //     //拼接 尾部＋头部并赋值给msg
+            //    _this.msg =  end+start; 
+            //     },400)
+                
+                
+            // },
+                //2.使用箭头函数，解决this的指向问题
+            lang(){
+                //这里是防止点击多次按钮，开启多个定时器，使得跑马灯速度越来越快
+                //当这个id不为null时，说明当前有定时器起作用，自己return出去即可
+                if(this.elementId!=null){
+                    return ;
+                }
+
+                //注意这里也要加this，不然就无法给赋值
+                this.elementId = setInterval( () => {
+                var start = this.msg.substring(0,1);//拿到第一个字符
+                var end = this.msg.substring(1);//拿到第一个字符后的字符串
+                //拼接 尾部＋头部并赋值给msg
+               this.msg =  end+start; 
+                },400)
+                }
+            ,
+            didiao(){
+                clearInterval(this.elementId);
+            }
+
+        }
+    });
+
+    // 1.给第一个button绑定点击事件
+    // 2.拿到msg字符串 substring方法，进行字符串的截取操作，
+    // 把第一个字符截取出来，放到最后一个，加定时器
+
+    </script>
+</body>
+</html>
